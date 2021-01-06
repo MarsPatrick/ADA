@@ -55,20 +55,86 @@ public class jugar {
                     prob[i][j]=0;
                     System.out.println("dispare en "+i+" "+j);
                     if(disparo !='0' && disparo != 'X'){
-                        if(i-1>1)
+                        if(i-1>1){
                             if(prob[i-1][j]!=0)
-                                prob[i-1][j]=60;
+                                prob[i-1][j]+=10;
+                            if(j-1>1)
+                                if(prob[i-1][j-1]>5)
+                                    prob[i-1][j-1]-=5;
+                            if(j+1<10)
+                                if(prob[i-1][j+1]>5)
+                                    prob[i-1][j+1]-=5;
+                            if(j-2>1)
+                                if(prob[i-1][j-2]>3)
+                                    prob[i-1][j-2]-=3;
+                            if(j+2<10)
+                                if(prob[i-1][j+2]>3)
+                                    prob[i-1][j+2]-=3;
+                        }
                         if(j+1<10)
                             if(prob[i][j+1]!=0)
-                                prob[i][j+1]=40;
-                        if(i+1<10)
+                                prob[i][j+1]+=5;
+                        if(i+1<10){
                             if(prob[i+1][j]!=0)
-                                prob[i+1][j]=60;
+                                prob[i+1][j]+=10;
+                            if(j-1>1)
+                                if(prob[i+1][j-1]>5)
+                                    prob[i+1][j-1]-=5;
+                            if(j+1<10)
+                                if(prob[i+1][j+1]>5)
+                                    prob[i+1][j+1]-=5;
+                            if(j-2>1)
+                                if(prob[i+1][j-2]>3)
+                                    prob[i+1][j-2]-=3;
+                            if(j+2<10)
+                                if(prob[i+1][j+2]>3)
+                                    prob[i+1][j+2]-=3;
+                        }
                         if(j-1>1)
                             if(prob[i][j-1]!=0)
-                                prob[i][j-1]=30;
+                                prob[i][j-1]+=5;
+                        if(i-2>1){
+                            if(prob[i-2][j]!=0)
+                                prob[i-2][j]+=3;
+                            if(j-1>1)
+                                if(prob[i-2][j-1]>5)
+                                    prob[i-2][j-1]-=5;
+                            if(j+1<10)
+                                if(prob[i-2][j+1]>5)
+                                    prob[i-2][j+1]-=5;
+                            if(j-2>1)
+                                if(prob[i-2][j-2]>3)
+                                    prob[i-2][j-2]-=3;
+                            if(j+2<10)
+                                if(prob[i-2][j+2]>3)
+                                    prob[i-2][j+2]-=3;
+                        }
+                        if(j+2<10)
+                            if(prob[i][j+2]!=0)
+                                prob[i][j+2]+=1;
+                        if(i+2<10){
+                            if(prob[i+2][j]!=0)
+                                prob[i+2][j]+=3;
+                            if(j-1>1)
+                                if(prob[i+2][j-1]>5)
+                                    prob[i+2][j-1]-=5;
+                            if(j+1<10)
+                                if(prob[i+2][j+1]>5)
+                                    prob[i+2][j+1]-=5;
+                            if(j-2>1)
+                                if(prob[i+2][j-2]>3)
+                                    prob[i+2][j-2]-=3;
+                            if(j+2<10)
+                                if(prob[i+2][j+2]>3)
+                                    prob[i+2][j+2]-=3;
+                        }
+                        if(j-2>1)
+                            if(prob[i][j-2]!=0)
+                                prob[i][j-2]+=1;
+
                         Disparo(prob,MayorProb(prob),t);
                     }else{
+                        System.out.println("falle");
                         if(t.ganar()==0){
                             Disparo(prob,MayorProb(prob),t);
                         }
@@ -98,7 +164,6 @@ public class jugar {
             }
         }
         int disparorandom=0;
-        //hacer un random de 0 a cantmayor-1
         int max = cantmayor-1;
         int min = 1;
         int range = max - min + 1;
@@ -111,16 +176,20 @@ public class jugar {
     }
 
     public static void main(String[] args){
-        Tablero t = new Tablero(10);
-        int[][] prob = probabilidades();
-        int mayor=MayorProb(prob);
-        int cantmayor=CantMayorProb(prob,mayor);
-        if(cantmayor==1){
-            DisparoUnico(prob,mayor,t);
-        }else{
-            Disparo(prob,mayor,t);
+        int rep=1;
+        int sum=0;
+        for(int x=0;x<rep;x++){
+            Tablero t = new Tablero(10);
+            int[][] prob = probabilidades();
+            int mayor=MayorProb(prob);
+            int cantmayor=CantMayorProb(prob,mayor);
+            if(cantmayor==1){
+                DisparoUnico(prob,mayor,t);
+            }else{
+                Disparo(prob,mayor,t);
+            }
+            sum+=t.ganar();
         }
-        System.out.println(t.ganar());
-        t.Imprimir();
+        System.out.println(sum/rep);
     }
 }
